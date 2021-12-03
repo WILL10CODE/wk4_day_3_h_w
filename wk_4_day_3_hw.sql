@@ -59,12 +59,13 @@ where customer_id in (
 );
 
 --8.How many free rentals did our stores give away?
-select store_id, payment.amount
+select staff.staff_id, payment.amount,count(payment.amount)
 from staff 
-inner join payment 
-on payment.store_id = staff.store_id
-group by staff.store_id
-where payment.amount = 0;
+left join payment 
+on payment.staff_id = staff.staff_id
+group by payment.staff_id, staff.staff_id, payment.amount
+having payment.amount = 0
+order by count(payment.amount);
 
 
 
